@@ -86,3 +86,8 @@ I'm building this project to ensure exactly-once delivery semantics from Kafka t
 
     🚧 As I scale, I’ll monitor for duplicates and tune the system to maintain delivery guarantees at large volume
 
+✅ Project Progress Checklist (Solo Build – Ongoing)
+Task/Feature	Status	Notes
+Set up Apache Spark Structured Streaming project	✅ Done	Using PySpark with custom class-based design
+Built streaming schema using StructType	✅ Done	Handles nested and array JSON fields
+Created SparkSession and local testing setup	✅ Done	Running locally with file-based simulation
