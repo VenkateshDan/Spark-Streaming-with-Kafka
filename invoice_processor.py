@@ -168,6 +168,14 @@ class readingInvoice:
         logger.info("Data written successfully")
         return
 
+    def stopSparkSession(self):
+        logger.info("Stopping Spark session")
+        try:
+            self.spark.stop()
+            logger.info("Spark session stopped successfully")
+        except Exception as e:
+            logger.exception(f"Error stopping Spark session: {e}")
+            raise e
 
 if __name__ == "__main__":
    
@@ -181,4 +189,6 @@ if __name__ == "__main__":
     #rawData.show(n=1, vertical=True)
     # print(schema)
     #flattenedData.printSchema()
-    rd.writeData(flattenedData)
+    query = rd.writeData(flattenedData)
+    #query.awaitTermination()
+    rd.stopSparkSession()
