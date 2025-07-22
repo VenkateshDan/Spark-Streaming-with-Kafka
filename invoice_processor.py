@@ -86,7 +86,7 @@ class readingInvoice:
         try:
             df = self.spark.readStream.format("org.apache.spark.sql.json") \
                  .schema(self.getSchema()) \
-                 .load(f"{self.base_dir}/invoices-1.json" )            
+                 .load(f"{self.base_dir}/" )            
             logger.info("Raw data retrieved successfully")
             df.printSchema()
         except Exception as e:
@@ -159,7 +159,10 @@ class readingInvoice:
                 .option("path", output_path) \
                 .option("checkpointLocation", checkpoint_path) \
                 .outputMode("append") \
+                .trigger(once=True) \
                 .start()
+                # .trigger(availableNow=True) \
+                # .trigger(processingTime="10 seconds") \
             logger.info("Data writing started successfully")
             return query
         except Exception as e:
@@ -189,6 +192,7 @@ if __name__ == "__main__":
     #rawData.show(n=1, vertical=True)
     # print(schema)
     #flattenedData.printSchema()
+
     query = rd.writeData(flattenedData)
-    #query.awaitTermination()
-    rd.stopSparkSession()
+    query.awaitTermination()
+    #rd.stopSparkSession()
